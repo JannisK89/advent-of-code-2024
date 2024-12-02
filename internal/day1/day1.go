@@ -29,8 +29,7 @@ func sortSlice(slice []int) []int {
 	return slice
 }
 
-func Part1(input []string) int {
-	var totalDistance int
+func createSlices(input []string) ([]int, []int) {
 	var leftNumbers, rightNumbers []int
 
 	for i, line := range input {
@@ -45,6 +44,12 @@ func Part1(input []string) int {
 		leftNumbers = append(leftNumbers, firstValue)
 		rightNumbers = append(rightNumbers, secondvalue)
 	}
+	return leftNumbers, rightNumbers
+}
+
+func Part1(input []string) int {
+	var totalDistance int
+	leftNumbers, rightNumbers := createSlices(input)
 
 	leftNumbers = sortSlice(leftNumbers)
 	rightNumbers = sortSlice(rightNumbers)
@@ -55,4 +60,21 @@ func Part1(input []string) int {
 		totalDistance += distance
 	}
 	return totalDistance
+}
+
+func Part2(input []string) int {
+	var totalSimilarity int
+	var counter int
+	leftNumbers, rightNumbers := createSlices(input)
+
+	for _, left := range leftNumbers {
+		counter = 0
+		for _, right := range rightNumbers {
+			if left == right {
+				counter++
+			}
+		}
+		totalSimilarity += counter * left
+	}
+	return totalSimilarity
 }
